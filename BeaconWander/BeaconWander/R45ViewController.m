@@ -55,6 +55,7 @@ static NSString * const R45BeaconRegionStation4 = @"Station 4";
         
         if ([CLLocationManager isRangingAvailable] == NO) {
             NSLog(@"No ranging available");
+            return;
         }
 
         self.locationManager = [[CLLocationManager alloc] init];
