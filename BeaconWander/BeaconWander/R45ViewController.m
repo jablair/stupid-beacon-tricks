@@ -35,7 +35,7 @@ static NSString * const R45BeaconRegionStation4 = @"Station 4";
 {
     [super viewDidLoad];
     
-    NSUUID *startBeaconUUID = [[NSUUID alloc] initWithUUIDString:@"2F234454-CF6D-4A0F-ADF2-F4911BA9FFA6"];
+    NSUUID *startBeaconUUID = [[NSUUID alloc] initWithUUIDString:@"2F234454-CF6D-4A0F-ADF2-F4911BA9FFA9"];
     
     self.synthesizer = [[AVSpeechSynthesizer alloc] init];
     
