@@ -11,6 +11,7 @@
 
 @interface R45ViewController () <CLLocationManagerDelegate>
 @property (strong) CLLocationManager *locationManager;
+@property (assign) BOOL notificationHandled;
 @end
 
 static NSString * const R45BeaconRegionIndetifier = @"R45BeaconRegionIndetifier";
@@ -56,25 +57,34 @@ static NSString * const R45BeaconRegionIndetifier = @"R45BeaconRegionIndetifier"
 
 - (void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error
 {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
 }
 
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region
 {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
 }
 
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region
 {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    self.notificationHandled = NO;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region
 {
+    if (state != CLRegionStateInside) {
+        return;
+    }
+
+    if (self.notificationHandled)
+        return;
+
     UILocalNotification *notification = [[UILocalNotification alloc] init];
-    if (state == CLRegionStateInside) {
-        notification.alertBody = @"Entered monitoring range";
-    }
-    else if (state == CLRegionStateOutside) {
-        notification.alertBody = @"Exited monitoring range";
-    }
+    notification.alertBody = @"Entered monitoring range";
     [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+    
+    self.notificationHandled = YES;
 }
+
 @end
