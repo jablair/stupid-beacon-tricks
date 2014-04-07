@@ -86,14 +86,20 @@ static NSString * const R45BeaconRegionIndetifier = @"R45BeaconRegionIndetifier"
         return;
     }
 
-    if (self.isReadyForUpdate == NO)
+    if (self.isReadyForUpdate == NO) {
         return;
+    }
     
     self.readyForUpdate = NO;
     
     CLBeacon *topLeftBeacon = beacons[topLeftIndex];
     CLBeacon *topRightBeacon = beacons[topRightIndex];
     CLBeacon *bottomBeacon = beacons[bottomIndex];
+    
+    if (topLeftBeacon.accuracy < 0 || topRightBeacon < 0 || bottomBeacon < 0) {
+        NSLog(@"Failed to locate necessary beacons");
+        return;
+    }
     
     // I'd like to apologize to all of my old math teachers
     CGFloat d = 2.2, i = 1.1, j = 3.5;
