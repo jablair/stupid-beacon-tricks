@@ -22,6 +22,7 @@
 @property (copy) NSArray *beaconIndicators;
 @property (assign) NSUInteger currentBeaconIndex;
 @property (strong) AVSpeechSynthesizer *synthesizer;
+@property (assign) CLProximity lastProximity;
 @end
 
 @implementation R45ViewController
@@ -159,6 +160,20 @@ static NSString * const R45BeaconRegionStation4 = @"Station 4";
         default:
             break;
     }
+    
+    AVSpeechUtterance *utterance;
+    if ([rangedBeacon proximity] < self.lastProximity && [rangedBeacon proximity] != CLProximityUnknown) {
+        utterance = [[AVSpeechUtterance alloc] initWithString:@"Warmer"];
+    }
+    else if ([rangedBeacon proximity] > self.lastProximity) {
+        utterance = [[AVSpeechUtterance alloc] initWithString:@"Colder"];
+    }
+    
+    if (utterance) {
+        utterance.rate = .4;
+        [self.synthesizer speakUtterance:utterance];
+    }
+    self.lastProximity = [rangedBeacon proximity];
     
     self.proximityLabel.text = proximityString;
     UIColor *backgroundColor = [UIColor colorWithRed:redComponent green:0.0 blue:blueComponent alpha:1.0];
