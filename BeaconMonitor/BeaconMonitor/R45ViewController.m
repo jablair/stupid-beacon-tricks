@@ -35,7 +35,6 @@ static NSString * const R45BeaconRegionIndetifier = @"R45BeaconRegionIndetifier"
         NSUUID *beaconUUID = [[NSUUID alloc] initWithUUIDString:@"2F234454-CF6D-4A0F-ADF2-F4911BA9FFA9"];
         CLBeaconRegion *beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:beaconUUID identifier:R45BeaconRegionIndetifier];
         beaconRegion.notifyEntryStateOnDisplay = YES;
-        beaconRegion.notifyOnEntry = NO;
         
         [self.locationManager startMonitoringForRegion:beaconRegion];
     }

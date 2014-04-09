@@ -27,7 +27,7 @@
     
     CLBeaconRegion *infectionBeacon = [[CLBeaconRegion alloc] initWithProximityUUID:self.beaconUUID identifier:@"InfectionBeacon"];
     
-    if ([CLLocationManager isMonitoringAvailableForClass:[CLBeaconRegion class]]) {
+    if ([CLLocationManager isRangingAvailable]) {
         CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
         if (status == kCLAuthorizationStatusRestricted || status == kCLAuthorizationStatusDenied) {
             NSLog(@"No monitoring allowed");
@@ -107,7 +107,7 @@
 #pragma mark - CBPeripheralManagerDelegate
 - (void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral
 {
-    
+    NSLog(@"Peripheral Manager State %zd", peripheral.state);
 }
 
 @end
